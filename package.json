@@ -9,13 +9,27 @@
     "setup-db": "psql $DATABASE_URL -c 'SELECT 1 FROM ideas LIMIT 1;' || psql $DATABASE_URL -f db/schema.sql"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "next": "^14.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "@tanstack/react-query": "^4.35.0",
     "pg": "^8.7.3",
     "dotenv": "^16.0.3",
     "socket.io": "^4.5.3",
     "axios": "^1.5.0"
+  },
+  "overrides": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "setup-db": "psql $DATABASE_URL -c 'SELECT 1 FROM ideas LIMIT 1;' || psql $DATABASE_URL -f db/schema.sql",
+    "postinstall": "npm install --legacy-peer-deps"
+  }
+
+
+
 }
