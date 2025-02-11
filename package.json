@@ -1,0 +1,21 @@
+{
+  "name": "keyframe_shot",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "setup-db": "psql $DATABASE_URL -c 'SELECT 1 FROM ideas LIMIT 1;' || psql $DATABASE_URL -f db/schema.sql"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "pg": "^8.7.3",
+    "dotenv": "^16.0.3",
+    "socket.io": "^4.5.3",
+    "axios": "^0.27.2",
+    "react-query": "^3.39.2"
+  }
+}
