@@ -5,6 +5,7 @@ import { handleIdea } from "./api/components/handleIdea";
 export default function MockupUI() {
     const [ideaTitle, setIdeaTitle] = useState("");
     const [userId, setUserId] = useState("");
+    const [firstFramePrompt, setFirstFramePrompt] = useState("You are at a fashion show for clowns, everyone in the audience is not a clown");
     const [uniqueIdeaId, setUniqueIdeaId] = useState(null);
     const [state, setState] = useState("");
     const [generatedFrame, setGeneratedFrame] = useState(null);
@@ -19,7 +20,7 @@ export default function MockupUI() {
             },
             body: JSON.stringify({
                 input: {
-                    prompt: ideaTitle,
+                    prompt: firstFramePrompt,
                     aspect_ratio: "16:9",
                     output_format: "png",
                     output_quality: 80,
@@ -87,8 +88,8 @@ export default function MockupUI() {
                     type="text" 
                     placeholder="Enter first frame prompt" 
                     className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md" 
-                    value={ideaTitle}
-                    onChange={(e) => setIdeaTitle(e.target.value)}
+                    value={firstFramePrompt}
+                    onChange={(e) => setFirstFramePrompt(e.target.value)}
                 />
                 <button className="p-2 bg-green-600 rounded-md hover:bg-green-700" onClick={handleReplicateCall}>
                     Send to Replicate
