@@ -5,6 +5,7 @@ export default function MockupUI() {
     const [idea, setIdea] = useState("");
     const [state, setState] = useState("");
     const [generatedFrame, setGeneratedFrame] = useState(null);
+    const [dbRecord, setDbRecord] = useState(null);
 
     const handleReplicateCall = async () => {
         setState("generating");
@@ -35,6 +36,12 @@ export default function MockupUI() {
         }
     };
 
+    const handleIdeaSubmit = async () => {
+        const result = await handleIdea({ body: { idea_id: idea, prompt: idea } });
+        setDbRecord(result);
+        alert(`New DB Record: ${JSON.stringify(result)}`);
+    };
+
     return (
         <div className="max-w-2xl mx-auto p-6 space-y-6 bg-gray-900 text-white rounded-lg shadow-lg">
             <h1 className="text-xl font-bold">Concept</h1>
@@ -46,7 +53,7 @@ export default function MockupUI() {
                     value={idea}
                     onChange={(e) => setIdea(e.target.value)}
                 />
-                <button className="p-2 bg-blue-600 rounded-md hover:bg-blue-700" onClick={() => handleIdea({ body: { idea } })}>
+                <button className="p-2 bg-blue-600 rounded-md hover:bg-blue-700" onClick={handleIdeaSubmit}>
                     Record to DB
                 </button>
             </div>
