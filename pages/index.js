@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import { handleIdea } from "./api/components/handleIdea";
 
 export default function KeyframeShot() {
-    const [ideaId, setIdeaId] = useState("");
-    const [prompt, setPrompt] = useState("");
-    const [frameId, setFrameId] = useState("");
-
-    const handleIdeaSubmit = async () => {
-        const result = await handleIdea({ body: { idea_id: ideaId, prompt } });
-        console.log(result);
-    };
+    const [idea, setIdea] = useState("");
+    const [state, setState] = useState("");
+    const [generatedFrame, setGeneratedFrame] = useState(null);
 
     const handleReplicateCall = async () => {
+        setState("generating");
         const response = await fetch('/api/replicate', {
             method: 'POST',
             headers: {
@@ -19,10 +15,10 @@ export default function KeyframeShot() {
             },
             body: JSON.stringify({
                 input: {
+                    prompt: idea,
                     aspect_ratio: "16:9",
                     output_format: "png",
                     output_quality: 80,
-                    prompt: prompt,
                     prompt_upsampling: false,
                     safety_tolerance: 5,
                     width: 777
@@ -31,7 +27,12 @@ export default function KeyframeShot() {
         });
 
         const output = await response.json();
-        console.log(output);
+        if (output.error) {
+            setState("fail");
+        } else {
+            setGeneratedFrame(output);
+            setState("complete");
+        }
     };
 
     return (
@@ -40,27 +41,21 @@ export default function KeyframeShot() {
                 <h1>Add Idea</h1>
                 <input 
                     type="text" 
-                    placeholder="Idea ID" 
-                    value={ideaId} 
-                    onChange={(e) => setIdeaId(e.target.value)} 
-                />
-                <input 
-                    type="text" 
-                    placeholder="Prompt" 
-                    value={prompt} 
-                    onChange={(e) => setPrompt(e.target.value)} 
-                />
-                <button onClick={handleIdeaSubmit}>Add Idea</button>
-            </div>
-            <div>
-                <h1>Test Replicate API</h1>
-                <input 
-                    type="text" 
-                    placeholder="Frame ID" 
-                    value={frameId} 
-                    onChange={(e) => setFrameId(e.target.value)} 
+                    placeholder="Idea" 
+                    value={idea} 
+                    onChange={(e) => setIdea(e.target.value)} 
                 />
                 <button onClick={handleReplicateCall}>Send to Replicate</button>
+            </div>
+            <div>
+                {state === "generating" && <p>Generating...</p>}
+                {state === "complete" && generatedFrame && (
+                    <div>
+                        <h2>Generated Frame</h2>
+                        <img src={generatedFrame.url} alt="Generated Frame" />
+                    </div>
+                )}
+                {state === "fail" && <p>Failed to generate frame. Please try again.</p>}
             </div>
         </div>
     );
