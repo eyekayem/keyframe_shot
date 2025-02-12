@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import Replicate from 'replicate';
 import { handleIdea } from "./api/components/handleIdea";
 
-const replicate = new Replicate({
-    auth: process.env.REPLICATE_API_TOKEN
-});
-
 export default function KeyframeShot() {
     const [ideaId, setIdeaId] = useState("");
     const [prompt, setPrompt] = useState("");
@@ -17,6 +13,10 @@ export default function KeyframeShot() {
     };
 
     const handleReplicateCall = async () => {
+        const replicate = new Replicate({
+            auth: process.env.REPLICATE_API_TOKEN
+        });
+
         const output = await replicate.run(
             "black-forest-labs/flux-1.1-pro",
             {
