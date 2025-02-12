@@ -17,14 +17,16 @@ export default async function handler(req, res) {
         });
 
         try {
+            const modelVersion = "black-forest-labs/flux:1.1-pro";
             console.log("Sending request to Replicate with:", {
+                modelVersion,
                 prompt: prompt,
                 webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`
             });
 
             // Submit request to Replicate (Flux Model)
             const prediction = await replicate.run(
-                "black-forest-labs/flux:1.1-pro", // Ensure correct format
+                modelVersion, // Ensure correct format
                 {
                     input: {
                         aspect_ratio: "16:9",
@@ -32,7 +34,8 @@ export default async function handler(req, res) {
                         output_quality: 80,
                         prompt: prompt,
                         prompt_upsampling: false,
-                        safety_tolerance: 5
+                        safety_tolerance: 5,
+                        width: 777
                     },
                     webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`, // Auto-register webhook
                     webhook_events_filter: ["completed"]
