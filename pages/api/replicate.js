@@ -1,40 +1,45 @@
-import Replicate from "replicate";
+const Replicate = require('replicate');
 
 const replicate = new Replicate({
-    auth: process.env.REPLICATE_API_TOKEN,
+    auth: process.env.REPLICATE_API_TOKEN
 });
 
+// Prevent caching (if applicable)
+replicate.fetch = (url, options) => {
+    return fetch(url, { ...options, cache: "no-store" });
+};
+
+// Webhook host setup
+const WEBHOOK_HOST = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : process.env.NGROK_HOST;
+
 export default async function handler(req, res) {
-    if (req.method === "POST") {
-        try {
-            const { input } = req.body;
+    if (!process.env.REPLICATE_API_TOKEN) {
+        return res.status(500).json({ error: 'The REPLICATE_API_TOKEN environment variable is not set. See README.md for instructions on how to set it.' });
+    }
 
-            // Ensure all required parameters are provided
-            if (!input || !input.prompt) {
-                return res.status(400).json({ error: "Missing required input fields." });
-            }
+    const { input } = req.body;
 
-            const modelVersion = "black-forest-labs/flux-1.1-pro:1e4079ea4e5c476e961a2709f9397d949354e098dbcd72a65483946b62a39b1d";
+    const options = {
+        version: '8beff3369e81422112d93b89ca01426147de542cd4684c244b673b105188fe5f',
+        input: { input }
+    }
 
-            // Make API request to Replicate
-            const prediction = await replicate.run(modelVersion, {
-                input: {
-                    aspect_ratio: input.aspect_ratio || "16:9",
-                    output_format: input.output_format || "png",
-                    output_quality: input.output_quality || 80,
-                    prompt: input.prompt,
-                    prompt_upsampling: input.prompt_upsampling || false,
-                    safety_tolerance: input.safety_tolerance || 5,
-                    width: input.width || 777
-                }
-            });
+    if (WEBHOOK_HOST) {
+        options.webhook = `${WEBHOOK_HOST}/api/webhooks`;
+        options.webhook_events_filter = ["start", "completed"];
+    }
 
-            res.status(200).json({ prediction });
-        } catch (error) {
-            console.error("Replicate API Error:", error);
-            res.status(500).json({ error: "Failed to generate image." });
+    try {
+        const prediction = await replicate.predictions.create(options);
+
+        if (prediction?.error) {
+            return res.status(500).json({ detail: prediction.error });
         }
-    } else {
-        res.status(405).json({ error: "Method Not Allowed" });
+
+        return res.status(201).json(prediction);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
 }
