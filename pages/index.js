@@ -27,7 +27,6 @@ export default function KeyframeShot() {
                     safety_tolerance: 5,
                     width: 777
                 },
-                model: "black-forest-labs/flux:1.1-pro" // Correct format for owner/model:version
             }),
         });
 
