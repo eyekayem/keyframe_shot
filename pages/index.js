@@ -1,10 +1,17 @@
-import CreateIdea from "../components/CreateIdea";
+import IdeaHandler from "./components/handleIdea";
+import FirstFrameHandler from "./components/handleFirstFrame";
 
-export default function Home() {
+export default function KeyframeShot() {
     return (
         <div>
-            <h1>Create a New Idea</h1>
-            <CreateIdea />
+            <div>
+                <h1>Handle Idea</h1>
+                <IdeaHandler />
+            </div>
+            <div>
+                <h1>Handle First Frame</h1>
+                <FirstFrameHandler />
+            </div>
         </div>
     );
 }
