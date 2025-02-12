@@ -1,5 +1,5 @@
-import IdeaHandler from "./components/handleIdea";
-import FirstFrameHandler from "./components/handleFirstFrame";
+import IdeaHandler from "./api/components/handleIdea";
+import FirstFrameHandler from "./api/components/handleFirstFrame";
 
 export default function KeyframeShot() {
     return (
