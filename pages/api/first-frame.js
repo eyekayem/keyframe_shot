@@ -15,7 +15,11 @@ export default async function handler(req, res) {
             // Start image generation via Replicate API (Flux model)
             const prediction = await replicate.run(
                 "stability-ai/stable-diffusion:latest",
-                { input: { prompt } }
+                {
+                    input: { prompt },
+                    webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`,
+                    webhook_events_filter: ["completed"]
+                }
             );
 
             // Store job details in the database
