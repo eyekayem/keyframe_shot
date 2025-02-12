@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { handleIdea } from "./api/components/handleIdea";
 
 export default function MockupUI() {
-    const [idea, setIdea] = useState("");
+    const [ideaTitle, setIdeaTitle] = useState("");
+    const [userId, setUserId] = useState("");  // Assuming user ID is available
     const [state, setState] = useState("");
     const [generatedFrame, setGeneratedFrame] = useState(null);
     const [dbRecord, setDbRecord] = useState(null);
@@ -16,7 +17,7 @@ export default function MockupUI() {
             },
             body: JSON.stringify({
                 input: {
-                    prompt: idea,
+                    prompt: ideaTitle,
                     aspect_ratio: "16:9",
                     output_format: "png",
                     output_quality: 80,
@@ -37,7 +38,7 @@ export default function MockupUI() {
     };
 
     const handleIdeaSubmit = async () => {
-        const result = await handleIdea({ body: { idea_id: idea, prompt: idea } });
+        const result = await handleIdea({ body: { title: ideaTitle, user_id: userId } });
         setDbRecord(result);
         alert(`New DB Record: ${JSON.stringify(result)}`);
     };
@@ -50,8 +51,8 @@ export default function MockupUI() {
                     type="text" 
                     placeholder="Enter idea title" 
                     className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md" 
-                    value={idea}
-                    onChange={(e) => setIdea(e.target.value)}
+                    value={ideaTitle}
+                    onChange={(e) => setIdeaTitle(e.target.value)}
                 />
                 <button className="p-2 bg-blue-600 rounded-md hover:bg-blue-700" onClick={handleIdeaSubmit}>
                     Record to DB
@@ -64,8 +65,8 @@ export default function MockupUI() {
                     type="text" 
                     placeholder="Enter first frame prompt" 
                     className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md" 
-                    value={idea}
-                    onChange={(e) => setIdea(e.target.value)}
+                    value={ideaTitle}
+                    onChange={(e) => setIdeaTitle(e.target.value)}
                 />
                 <button className="p-2 bg-green-600 rounded-md hover:bg-green-700" onClick={handleReplicateCall}>
                     Send to Replicate
