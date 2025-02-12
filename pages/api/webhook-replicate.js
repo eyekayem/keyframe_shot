@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
             res.status(200).json({ message: "Image saved." });
         } else if (status === "failed") {
-            // Handle failed generations
+            // Handle failed image generations
             await db.query(`
                 UPDATE prompts SET status = 'failed'
                 WHERE content->>'prediction_id' = $1
