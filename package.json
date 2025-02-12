@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "setup-db": "psql $DATABASE_URL -c 'SELECT 1 FROM ideas LIMIT 1;' || psql $DATABASE_URL -f db/schema.sql"
   },
   "dependencies": {
     "next": "^14.0.3",
@@ -21,15 +20,5 @@
   "overrides": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "setup-db": "psql $DATABASE_URL -c 'SELECT 1 FROM ideas LIMIT 1;' || psql $DATABASE_URL -f db/schema.sql",
-    "postinstall": "npm install --legacy-peer-deps"
   }
-
-
-
 }
