@@ -10,25 +10,36 @@ export default function MockupUI() {
     const [state, setState] = useState("");
     const [generatedFrame, setGeneratedFrame] = useState(null);
     const [dbRecord, setDbRecord] = useState(null);
+    const [showDialog, setShowDialog] = useState(false);
+    const [payload, setPayload] = useState({});
 
     const handleReplicateCall = async () => {
+        const promptPayload = {
+            input: {
+                prompt: firstFramePrompt,
+                aspect_ratio: "16:9",
+                output_format: "png",
+                output_quality: 80,
+                prompt_upsampling: false,
+                safety_tolerance: 5,
+                width: 777
+            },
+        };
+        
+        setPayload(promptPayload);
+        setShowDialog(true);
+    };
+
+    const confirmReplicateCall = async () => {
+        setShowDialog(false);
         setState("generating");
+        
         const response = await fetch('/api/replicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                input: {
-                    prompt: firstFramePrompt,
-                    aspect_ratio: "16:9",
-                    output_format: "png",
-                    output_quality: 80,
-                    prompt_upsampling: false,
-                    safety_tolerance: 5,
-                    width: 777
-                },
-            }),
+            body: JSON.stringify(payload),
         });
 
         const output = await response.json();
@@ -120,6 +131,25 @@ export default function MockupUI() {
             </div>
             <input type="text" placeholder="Enter video generation prompt" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md" />
             <button className="p-2 bg-purple-600 w-full rounded-md hover:bg-purple-700">Send to Luma 1.6</button>
+
+            {showDialog && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg text-black">
+                        <h2 className="text-lg font-semibold mb-4">Confirm Prompt Payload</h2>
+                        <pre className="bg-gray-200 p-4 rounded-md overflow-auto max-h-64">
+                            {JSON.stringify(payload, null, 2)}
+                        </pre>
+                        <div className="flex justify-end space-x-2 mt-4">
+                            <button className="p-2 bg-red-600 rounded-md hover:bg-red-700" onClick={() => setShowDialog(false)}>
+                                Cancel
+                            </button>
+                            <button className="p-2 bg-green-600 rounded-md hover:bg-green-700" onClick={confirmReplicateCall}>
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
