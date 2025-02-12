@@ -17,6 +17,11 @@ export default async function handler(req, res) {
         });
 
         try {
+            console.log("Sending request to Replicate with:", {
+                prompt: prompt,
+                webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`
+            });
+
             // Submit request to Replicate (Flux Model)
             const prediction = await replicate.run(
                 "black-forest-labs/flux:1.1-pro", // Ensure correct format
