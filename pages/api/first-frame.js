@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         try {
             console.log("Sending request to Replicate with:", {
                 prompt: prompt,
-                webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`
+                webhook: `${process.env.VERCEL_URL}/pages/api/webhook-replicate`
             });
 
             // Submit request to Replicate (Flux Model)
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
                         safety_tolerance: 5,
                         width: 777
                     },
-                    webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`, // Auto-register webhook
+                    webhook: `${process.env.VERCEL_URL}/pages/api/webhook-replicate`, // Auto-register webhook
                     webhook_events_filter: ["completed"]
                 }
             );
