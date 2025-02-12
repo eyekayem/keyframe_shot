@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         try {
             // Submit request to Replicate (Flux Model)
             const prediction = await replicate.run(
-                "black-forest-labs/flux-1.1-pro",
+                "black-forest-labs/flux:1.1-pro", // Ensure correct format
                 {
                     input: {
                         aspect_ratio: "16:9",
