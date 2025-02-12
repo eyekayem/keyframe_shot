@@ -11,6 +11,11 @@ export default async function handler(req, res) {
         const { idea_id, prompt } = req.body;
         const frameId = uuidv4();
 
+        console.log("Environment Variables:", {
+            VERCEL_URL: process.env.VERCEL_URL,
+            REPLICATE_API_TOKEN: process.env.REPLICATE_API_TOKEN ? "Present" : "Not Set"
+        });
+
         try {
             // Submit request to Replicate (Flux Model)
             const prediction = await replicate.run(
