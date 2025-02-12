@@ -1,5 +1,5 @@
 // pages/api/components/handleFirstFrame.js
-import db from "../../../lib/db";
+import db from "../../lib/db";
 import Replicate from "replicate";
 
 const replicate = new Replicate({
