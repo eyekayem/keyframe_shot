@@ -12,17 +12,25 @@ export default async function handler(req, res) {
         const frameId = uuidv4();
 
         try {
-            // Start image generation via Replicate API (Flux model)
+            // Submit request to Replicate (Flux Model)
             const prediction = await replicate.run(
-                "stability-ai/stable-diffusion:latest",
+                "black-forest-labs/flux-1.1-pro",
                 {
-                    input: { prompt },
-                    webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`,
+                    input: {
+                        aspect_ratio: "16:9",
+                        output_format: "png",
+                        output_quality: 80,
+                        prompt: prompt,
+                        prompt_upsampling: false,
+                        safety_tolerance: 5,
+                        width: 777
+                    },
+                    webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`, // Auto-register webhook
                     webhook_events_filter: ["completed"]
                 }
             );
 
-            // Store job details in the database
+            // Store the prompt & job ID in the database
             await db.query(`
                 INSERT INTO prompts (id, idea_id, type, content, status)
                 VALUES ($1, $2, 'image', $3, 'generating')
@@ -30,8 +38,8 @@ export default async function handler(req, res) {
 
             res.status(201).json({ frameId, predictionId: prediction.id });
         } catch (error) {
-            console.error("Replicate Error:", error);
-            res.status(500).json({ error: "Image generation failed." });
+            console.error("Replicate API Error:", error);
+            res.status(500).json({ error: "Failed to submit image generation." });
         }
     } else {
         res.status(405).json({ error: "Method Not Allowed" });
