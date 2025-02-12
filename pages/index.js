@@ -5,11 +5,11 @@ export default function KeyframeShot() {
     return (
         <div>
             <div>
-                <h1>Handle Idea</h1>
+                <h1>Idea Description</h1>
                 <IdeaHandler />
             </div>
             <div>
-                <h1>Handle First Frame</h1>
+                <h1>Create First Frame</h1>
                 <FirstFrameHandler />
             </div>
         </div>
