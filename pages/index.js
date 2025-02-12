@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Replicate from 'replicate';
 import { handleIdea } from "./api/components/handleIdea";
 
 export default function KeyframeShot() {
@@ -13,13 +12,12 @@ export default function KeyframeShot() {
     };
 
     const handleReplicateCall = async () => {
-        const replicate = new Replicate({
-            auth: process.env.REPLICATE_API_TOKEN
-        });
-
-        const output = await replicate.run(
-            "black-forest-labs/flux-1.1-pro",
-            {
+        const response = await fetch('/api/replicate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
                 input: {
                     aspect_ratio: "16:9",
                     output_format: "png",
@@ -29,8 +27,10 @@ export default function KeyframeShot() {
                     safety_tolerance: 5,
                     width: 777
                 }
-            }
-        );
+            }),
+        });
+
+        const output = await response.json();
         console.log(output);
     };
 
