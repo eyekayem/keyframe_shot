@@ -2,13 +2,18 @@
 import { v4 as uuidv4 } from "uuid";
 
 export async function handleIdea(req) {
-    const { idea_id, prompt } = req.body;
-    const frameId = uuidv4();
+    const { user_id, title } = req.body;
+    const ideaId = uuidv4();
+    const createdAt = new Date().toISOString();
 
-    console.log("Environment Variables:", {
-        VERCEL_URL: process.env.VERCEL_URL,
-        REPLICATE_API_TOKEN: process.env.REPLICATE_API_TOKEN ? "Present" : "Not Set"
-    });
+    // Simulate database interaction
+    const newRecord = {
+        id: ideaId,
+        user_id: user_id,
+        title: title,
+        created_at: createdAt
+    };
 
-    return { idea_id, prompt, frameId };
+    console.log("New DB Record:", newRecord);
+    return newRecord;
 }
