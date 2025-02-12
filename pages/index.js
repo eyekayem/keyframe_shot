@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { handleIdea } from "./api/components/handleIdea";
 
 export default function MockupUI() {
     const [ideaTitle, setIdeaTitle] = useState("");
-    const [userId, setUserId] = useState("");  // Assuming user ID is available
+    const [userId, setUserId] = useState("");
+    const [uniqueIdeaId, setUniqueIdeaId] = useState(null);
     const [state, setState] = useState("");
     const [generatedFrame, setGeneratedFrame] = useState(null);
     const [dbRecord, setDbRecord] = useState(null);
@@ -38,7 +40,10 @@ export default function MockupUI() {
     };
 
     const handleIdeaSubmit = async () => {
-        const result = await handleIdea({ body: { title: ideaTitle, user_id: userId } });
+        const ideaId = uuidv4();
+        setUniqueIdeaId(ideaId);
+        
+        const result = await handleIdea({ body: { id: ideaId, user_id: userId, title: ideaTitle } });
         setDbRecord(result);
         alert(`New DB Record: ${JSON.stringify(result)}`);
     };
@@ -46,6 +51,18 @@ export default function MockupUI() {
     return (
         <div className="max-w-2xl mx-auto p-6 space-y-6 bg-gray-900 text-white rounded-lg shadow-lg">
             <h1 className="text-xl font-bold">Concept</h1>
+            <div className="flex space-x-2">
+                <select 
+                    className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md" 
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
+                >
+                    <option value="">Select User</option>
+                    <option value="Kenny">Kenny</option>
+                    <option value="Rachel">Rachel</option>
+                    <option value="Brian">Brian</option>
+                </select>
+            </div>
             <div className="flex space-x-2">
                 <input 
                     type="text" 
@@ -58,6 +75,11 @@ export default function MockupUI() {
                     Record to DB
                 </button>
             </div>
+            {uniqueIdeaId && (
+                <div className="text-green-500">
+                    Unique Idea ID: {uniqueIdeaId}
+                </div>
+            )}
 
             <h2 className="text-lg font-semibold">First Frame</h2>
             <div className="flex space-x-2">
