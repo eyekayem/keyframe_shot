@@ -32,8 +32,7 @@ export default async function handler(req, res) {
                         output_quality: 80,
                         prompt: prompt,
                         prompt_upsampling: false,
-                        safety_tolerance: 5,
-                        width: 777
+                        safety_tolerance: 5
                     },
                     webhook: `${process.env.VERCEL_URL}/api/webhook-replicate`, // Auto-register webhook
                     webhook_events_filter: ["completed"]
