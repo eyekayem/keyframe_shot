@@ -1,4 +1,3 @@
-require('dotenv').config();
 console.log("Runtime DATABASE_URL:", process.env.DATABASE_URL);
 console.log("Runtime REPLICATE_API_TOKEN:", process.env.REPLICATE_API_TOKEN);
 
