@@ -55,7 +55,7 @@ export default function MockupUI() {
         const ideaId = uuidv4();
         setUniqueIdeaId(ideaId);
         
-        const result = await handleIdea({ body: { id: ideaId, user_id: userId, title: ideaTitle } });
+        const result = await handleIdea({ body: { ideaId, user_id: userId, title: ideaTitle } });
         setDbRecord(result);
         alert(`New DB Record: ${JSON.stringify(result)}`);
     };
