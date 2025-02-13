@@ -57,10 +57,15 @@ export default function MockupUI() {
     const handleIdeaSubmit = async () => {
         const ideaId = uuidv4();
         setUniqueIdeaId(ideaId);
-        
-        const result = await handleIdea({ body: { id: ideaId, user_id: userId, title: ideaTitle } });
-        setDbRecord(result);
-        alert(`New DB Record: ${JSON.stringify(result)}`);
+    
+        try {
+            const result = await handleIdea({ body: { id: ideaId, user_id: userId, title: ideaTitle } });
+            setDbRecord(result);
+            alert(`New DB Record: ${JSON.stringify(result)}`);
+        } catch (error) {
+            console.error("Error recording idea:", error);
+            alert("Failed to record idea. Please try again.");
+        }
     };
 
     return (
