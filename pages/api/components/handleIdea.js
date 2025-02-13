@@ -1,18 +1,19 @@
 import { v4 as uuidv4 } from "uuid";
-import db from "../../../lib/db";
+import { neon } from "@neondatabase/serverless";
 
 export async function handleIdea(req) {
     const { user_id, title } = req.body;
     const ideaId = uuidv4();
     const createdAt = new Date().toISOString();
+    const sql = neon(process.env.DATABASE_URL);
 
     try {
-        const result = await db.query(
-            "INSERT INTO ideas (id, user_id, title, created_at) VALUES ($1, $2, $3, $4) RETURNING *;",
-            [ideaId, user_id, title, createdAt]
-        );
-
-        const newRecord = result.rows[0];
+        const result = await sql`
+            INSERT INTO ideas (id, user_id, title, created_at)
+            VALUES (${ideaId}, ${user_id}, ${title}, ${createdAt})
+            RETURNING *;
+        `;
+        const newRecord = result[0];
         console.log("New DB Record:", newRecord);
         return newRecord;
     } catch (error) {
