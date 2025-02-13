@@ -2,6 +2,10 @@ require('dotenv').config();
 import { v4 as uuidv4 } from "uuid";
 import { neon } from "@neondatabase/serverless";
 
+console.log("DATABASE_URL:", process.env.DATABASE_URL); // Add this line for debugging
+
+
+
 export async function handleIdea(req) {
     const { user_id, title } = req.body;
     const ideaId = uuidv4();
