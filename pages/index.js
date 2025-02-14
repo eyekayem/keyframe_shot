@@ -1,6 +1,3 @@
-console.log("Runtime DATABASE_URL:", process.env.DATABASE_URL);
-console.log("Runtime REPLICATE_API_TOKEN:", process.env.REPLICATE_API_TOKEN);
-
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
