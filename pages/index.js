@@ -23,7 +23,7 @@ export default function MockupUI() {
                 width: 777
             },
         };
-
+        console.log("🔍 Debug handleReplicateCall promptPayload Body:", promptPayload);
         setState("generating");
 
         const response = await fetch('/api/replicate', {
