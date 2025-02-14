@@ -54,6 +54,8 @@ export default function MockupUI() {
         }
     };
 
+    import { v4 as uuidv4 } from 'uuid';
+    
     const handleIdeaSubmit = async () => {
         const ideaId = uuidv4();
         setUniqueIdeaId(ideaId);
