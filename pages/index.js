@@ -53,8 +53,6 @@ export default function MockupUI() {
             setState("complete");
         }
     };
-
-    import { v4 as uuidv4 } from 'uuid';
     
     const handleIdeaSubmit = async () => {
         const ideaId = uuidv4();
