@@ -92,6 +92,7 @@ export default function MockupUI() {
                     <option value="Kenny">Kenny</option>
                     <option value="Rachel">Rachel</option>
                     <option value="Brian">Brian</option>
+                     <option value="banny">banny</option>
                 </select>
             </div>
             <div className="flex space-x-2">
