@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { user_id, title, idea_id, prompt } = req.body;
+    const { user_id, title, idea_id } = req.body;
     const validUserIds = ['Kenny', 'Rachel', 'Brian', 'banny'];
 
     // Ensure `prompt` is always a string
