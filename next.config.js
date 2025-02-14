@@ -15,6 +15,7 @@ const nextConfig = {
   env: {
     DATABASE_URL: process.env.DATABASE_URL,
     REPLICATE_API_TOKEN: process.env.REPLICATE_API_TOKEN, // Exposes for frontend
+    VERCEL_URL: process.env.VERCEL_URL // Add this line
   },
 };
 
