@@ -17,7 +17,9 @@ export default async function handler(req, res) {
     // Ensure `prompt` is always a string
     const prompt = String(req.body.prompt || "").trim();
 
-    console.log("🔍 Debug Prompt Payload:", prompt); // Debugging log
+    // Debugging logs
+    console.log("🔍 Debug Request Body:", req.body);
+    console.log("🔍 Debug Prompt Payload:", prompt);
 
     // Validate user_id
     if (!validUserIds.includes(user_id)) {
@@ -36,7 +38,7 @@ export default async function handler(req, res) {
         console.log("🚀 Sending request to Replicate with prompt:", prompt);
         const prediction = await replicate.run(
             "black-forest-labs/flux-1.1-pro:1e4079ea4e5c476e961a2709f9397d949354e098dbcd72a65483946b62a39b1d",
-            { input: { prompt} }
+            { input: { prompt } }
         );
 
         console.log("✅ Replicate API Response:", prediction);
