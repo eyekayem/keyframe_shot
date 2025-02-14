@@ -1,4 +1,3 @@
-import { handleIdea } from "./components/handleIdea";
 import { handleFirstFrame } from "./components/handleFirstFrame";
 
 export default async function handler(req, res) {
