@@ -59,7 +59,19 @@ export default function MockupUI() {
         setUniqueIdeaId(ideaId);
     
         try {
-            const result = await handleIdea({ body: { id: ideaId, user_id: userId, title: ideaTitle } });
+            const response = await fetch('/api/handleIdea', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: ideaId, user_id: userId, title: ideaTitle }),
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to record idea");
+            }
+    
+            const result = await response.json();
             setDbRecord(result);
             alert(`New DB Record: ${JSON.stringify(result)}`);
         } catch (error) {
