@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from "uuid";
+import { neon } from "@neondatabase/serverless";
+
 export async function handleIdea(req) {
     const { user_id, title } = req.body;
     const ideaId = uuidv4();
