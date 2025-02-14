@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         console.log("🚀 Sending request to Replicate with prompt:", prompt);
         const prediction = await replicate.run(
             "black-forest-labs/flux-1.1-pro:1e4079ea4e5c476e961a2709f9397d949354e098dbcd72a65483946b62a39b1d",
-            { input: { "a monkey flying" } }
+            { input: "a monkey flying" }
         );
 
         console.log("✅ Replicate API Response:", prediction);
