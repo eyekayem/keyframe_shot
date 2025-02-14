@@ -31,7 +31,7 @@ export default function MockupUI() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(promptPayload),
+            body: promptPayload,
         });
 
         const output = await response.json();
