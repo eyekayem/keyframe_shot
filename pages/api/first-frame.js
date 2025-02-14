@@ -14,6 +14,11 @@ export default async function handler(req, res) {
     const { user_id, title, idea_id, prompt } = req.body;
     const validUserIds = ['Kenny', 'Rachel', 'Brian', 'banny'];
 
+    // Ensure `prompt` is always a string
+    const prompt = String(req.body.prompt || "").trim();
+
+    console.log("🔍 Debug Prompt Payload:", prompt); // Debugging log
+
     // Validate user_id
     if (!validUserIds.includes(user_id)) {
         return res.status(400).json({ error: 'Invalid user ID' });
