@@ -10,7 +10,9 @@ export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
-
+    // Debugging logs
+    console.log("🔍 Debug Request Body:", req.body);
+    
     const { user_id, title, idea_id } = req.body;
     const validUserIds = ['Kenny', 'Rachel', 'Brian', 'banny'];
 
