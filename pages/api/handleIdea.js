@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     }
 
     const { user_id, title } = req.body;
-    const validUserIds = ['kenny', 'rachel', 'brian', 'banny'];
+    const validUserIds = ['Kenny', 'Rachel', 'Brian', 'banny'];
 
     // Validate user_id
     if (!validUserIds.includes(user_id)) {
