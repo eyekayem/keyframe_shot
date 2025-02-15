@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
     const input = {
         prompt: prompt,
-        //    lora_weights: lora_weights,
+        lora_weights: lora_weights,
         guidance: 3,
         lora_scale: 1,
         megapixels: "1",
