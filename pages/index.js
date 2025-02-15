@@ -24,7 +24,7 @@ export default function MockupUI() {
         console.log("🔍 Debug handleReplicateCall promptPayload Body:", promptPayload);
         setState("generating");
         
-        const response = await fetch('/api/replicate', {
+        const response = await fetch('/api/first-frame', { // Updated endpoint
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ export default function MockupUI() {
                     onChange={(e) => setFirstFramePrompt(e.target.value)}
                 />
                 <button className="p-2 bg-green-600 rounded-md hover:bg-green-700" onClick={handleReplicateCall}>
-                    Send to Replicate
+                    Send to First Frame
                 </button>
             </div>
 
