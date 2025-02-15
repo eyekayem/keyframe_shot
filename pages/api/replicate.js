@@ -19,6 +19,8 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'The REPLICATE_API_TOKEN environment variable is not set. See README.md for instructions on how to set it.' });
     }
 
+    console.log("Incoming request body:", req.body); // Log the incoming request body
+
     const { input } = req.body;
 
     const options = {
