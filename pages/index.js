@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function MockupUI() {
     const [ideaTitle, setIdeaTitle] = useState("");
     const [userId, setUserId] = useState("");
     const [firstFramePrompt, setFirstFramePrompt] = useState("You are at a fashion show for clowns, everyone in the audience is not a clown");
-    const [uniqueIdeaId, setUniqueIdeaId] = useState(null);
+    const [ideaId, setIdeaId] = useState(null);
     const [state, setState] = useState("");
     const [generatedFrame, setGeneratedFrame] = useState(null);
     const [dbRecord, setDbRecord] = useState(null);
     const [showDialog, setShowDialog] = useState(false);
 
+    useEffect(() => {
+        // Check local storage for an existing idea_id
+        const storedIdeaId = localStorage.getItem('idea_id');
+        if (storedIdeaId) {
+            setIdeaId(storedIdeaId);
+        }
+    }, []);
+
     const handleReplicateCall = async () => {
-        if (!uniqueIdeaId) {
+        if (!ideaId) {
             alert("Please set an idea first.");
             return;
         }
@@ -29,7 +37,7 @@ export default function MockupUI() {
                     prompt: firstFramePrompt,
                     user_id: userId,
                     title: ideaTitle,
-                    idea_id: uniqueIdeaId
+                    idea_id: ideaId
                 })
             });
 
@@ -47,8 +55,9 @@ export default function MockupUI() {
     };
 
     const handleIdeaSubmit = async () => {
-        const ideaId = uuidv4();
-        setUniqueIdeaId(ideaId);
+        const newIdeaId = uuidv4();
+        setIdeaId(newIdeaId);
+        localStorage.setItem('idea_id', newIdeaId);
 
         try {
             const response = await fetch('/api/handleIdea', {
@@ -56,7 +65,7 @@ export default function MockupUI() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id: ideaId, user_id: userId, title: ideaTitle }),
+                body: JSON.stringify({ idea_id: newIdeaId, user_id: userId, title: ideaTitle }),
             });
 
             if (!response.ok) {
@@ -100,9 +109,9 @@ export default function MockupUI() {
                     Record to DB
                 </button>
             </div>
-            {uniqueIdeaId && (
+            {ideaId && (
                 <div className="text-green-500">
-                    Unique Idea ID: {uniqueIdeaId}
+                    Idea ID: {ideaId}
                 </div>
             )}
 
@@ -118,7 +127,7 @@ export default function MockupUI() {
                 <button 
                     className="p-2 bg-green-600 rounded-md hover:bg-green-700" 
                     onClick={handleReplicateCall}
-                    disabled={!uniqueIdeaId} // Disable button if uniqueIdeaId is not set
+                    disabled={!ideaId} // Disable button if ideaId is not set
                 >
                     Send to First Frame
                 </button>
