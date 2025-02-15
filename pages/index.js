@@ -12,19 +12,19 @@ export default function MockupUI() {
     const [showDialog, setShowDialog] = useState(false);
 
     const handleReplicateCall = async () => {
+        const ideaId = uniqueIdeaId || uuidv4();
+        setUniqueIdeaId(ideaId);
+
         const promptPayload = {
             prompt: firstFramePrompt,
-            aspect_ratio: "16:9",
-            output_format: "png",
-            output_quality: 80,
-            prompt_upsampling: false,
-            safety_tolerance: 5,
-            width: 777
+            user_id: userId,
+            title: ideaTitle,
+            idea_id: ideaId
         };
         console.log("🔍 Debug handleReplicateCall promptPayload Body:", promptPayload);
         setState("generating");
         
-        const response = await fetch('/api/first-frame', { // Updated endpoint
+        const response = await fetch('/api/first-frame', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
