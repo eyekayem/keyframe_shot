@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
     try {
         const result = await sql`
-            INSERT INTO ideas (id, user_id, title, created_at)
+            INSERT INTO ideas (idea_id, user_id, title, created_at)
             VALUES (${idea_id}, ${user_id}, ${title}, ${createdAt})
             RETURNING *;
         `;
