@@ -12,11 +12,13 @@ export default function MockupUI() {
     const [showDialog, setShowDialog] = useState(false);
 
     const handleReplicateCall = async () => {
-        const ideaId = uniqueIdeaId || uuidv4();
-        setUniqueIdeaId(ideaId);
-    
+        if (!uniqueIdeaId) {
+            alert("Please set an idea first.");
+            return;
+        }
+
         setState("generating");
-    
+
         try {
             const response = await fetch('/api/first-frame', {
                 method: 'POST',
@@ -27,10 +29,10 @@ export default function MockupUI() {
                     prompt: firstFramePrompt,
                     user_id: userId,
                     title: ideaTitle,
-                    idea_id: ideaId
+                    idea_id: uniqueIdeaId
                 })
             });
-    
+
             const output = await response.json();
             if (output.error) {
                 setState("fail");
@@ -113,7 +115,11 @@ export default function MockupUI() {
                     value={firstFramePrompt}
                     onChange={(e) => setFirstFramePrompt(e.target.value)}
                 />
-                <button className="p-2 bg-green-600 rounded-md hover:bg-green-700" onClick={handleReplicateCall}>
+                <button 
+                    className="p-2 bg-green-600 rounded-md hover:bg-green-700" 
+                    onClick={handleReplicateCall}
+                    disabled={!uniqueIdeaId} // Disable button if uniqueIdeaId is not set
+                >
                     Send to First Frame
                 </button>
             </div>
