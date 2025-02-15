@@ -21,13 +21,13 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const promptId = uuidv4();
+    const prompt_id = uuidv4();
     const createdAt = new Date().toISOString();
 
     try {
         const result = await sql`
-            INSERT INTO prompts (id, idea_id, user_id, type, prompt_text, created_at)
-            VALUES (${promptId}, ${idea_id}, ${user_id}, 'first-frame', ${cleanedPrompt}, ${createdAt})
+            INSERT INTO prompts (prompt_id, idea_id, user_id, type, prompt_text, created_at)
+            VALUES (${prompt_id}, ${idea_id}, ${user_id}, 'first-frame', ${cleanedPrompt}, ${createdAt})
             RETURNING *;
         `;
         const newRecord = result[0];
