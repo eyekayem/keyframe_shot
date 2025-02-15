@@ -14,10 +14,13 @@ const WEBHOOK_HOST = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : process.env.NGROK_HOST;
 
-export default async function handler(req, res) {
-    if (!process.env.REPLICATE_API_TOKEN) {
-        return res.status(500).json({ error: 'The REPLICATE_API_TOKEN environment variable is not set. See README.md for instructions on how to set it.' });
-    }
+const WEBHOOK_HOST = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : ''; // Remove NGROK_HOST fallback
+
+if (!WEBHOOK_HOST) {
+  throw new Error("Webhook host URL is not set. Ensure VERCEL_URL is defined.");
+}
 
     console.log("Incoming request body:", req.body); // Log the incoming request body
 
