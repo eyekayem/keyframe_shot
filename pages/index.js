@@ -14,7 +14,6 @@ export default function MockupUI() {
     const handleReplicateCall = async () => {
         const promptPayload = {
             prompt: firstFramePrompt,
-            lora_weights: [], // Ensure this is correctly set
             aspect_ratio: "16:9",
             output_format: "png",
             output_quality: 80,
