@@ -15,13 +15,6 @@ export default function MockupUI() {
         const ideaId = uniqueIdeaId || uuidv4();
         setUniqueIdeaId(ideaId);
     
-        const promptPayload = {
-            prompt: firstFramePrompt,
-            user_id: userId,
-            title: ideaTitle,
-            idea_id: ideaId
-        };
-        console.log("🔍 Debug handleReplicateCall promptPayload Body:", promptPayload);
         setState("generating");
     
         try {
@@ -30,7 +23,12 @@ export default function MockupUI() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(promptPayload)
+                body: JSON.stringify({
+                    prompt: firstFramePrompt,
+                    user_id: userId,
+                    title: ideaTitle,
+                    idea_id: ideaId
+                })
             });
     
             const output = await response.json();
