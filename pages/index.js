@@ -13,25 +13,24 @@ export default function MockupUI() {
 
     const handleReplicateCall = async () => {
         const promptPayload = {
-            input: {
-                prompt: firstFramePrompt,
-                aspect_ratio: "16:9",
-                output_format: "png",
-                output_quality: 80,
-                prompt_upsampling: false,
-                safety_tolerance: 5,
-                width: 777
-            },
+            prompt: firstFramePrompt,
+            lora_weights: [], // Ensure this is correctly set
+            aspect_ratio: "16:9",
+            output_format: "png",
+            output_quality: 80,
+            prompt_upsampling: false,
+            safety_tolerance: 5,
+            width: 777
         };
         console.log("🔍 Debug handleReplicateCall promptPayload Body:", promptPayload);
         setState("generating");
-
+        
         const response = await fetch('/api/replicate', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(promptPayload), // Convert to JSON string here
+            body: JSON.stringify(promptPayload)
         });
 
         const output = await response.json();
