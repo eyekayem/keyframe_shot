@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
     try {
         const result = await sql`
-            INSERT INTO prompts (id, idea_id, user_id, type, content, created_at)
+            INSERT INTO prompts (id, idea_id, user_id, type, prompt_text, created_at)
             VALUES (${promptId}, ${idea_id}, ${user_id}, 'first-frame', ${cleanedPrompt}, ${createdAt})
             RETURNING *;
         `;
