@@ -14,7 +14,7 @@ export default function MockupUI() {
     const handleReplicateCall = async () => {
         const ideaId = uniqueIdeaId || uuidv4();
         setUniqueIdeaId(ideaId);
-
+    
         const promptPayload = {
             prompt: firstFramePrompt,
             user_id: userId,
@@ -23,21 +23,26 @@ export default function MockupUI() {
         };
         console.log("🔍 Debug handleReplicateCall promptPayload Body:", promptPayload);
         setState("generating");
-        
-        const response = await fetch('/api/first-frame', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(promptPayload)
-        });
-
-        const output = await response.json();
-        if (output.error) {
+    
+        try {
+            const response = await fetch('/api/first-frame', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(promptPayload)
+            });
+    
+            const output = await response.json();
+            if (output.error) {
+                setState("fail");
+            } else {
+                setGeneratedFrame(output);
+                setState("complete");
+            }
+        } catch (error) {
+            console.error("Error in handleReplicateCall:", error);
             setState("fail");
-        } else {
-            setGeneratedFrame(output);
-            setState("complete");
         }
     };
 
