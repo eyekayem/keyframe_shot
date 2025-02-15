@@ -41,19 +41,7 @@ export default async function handler(req, res) {
         const prediction = await replicate.run(
             "black-forest-labs/flux-1.1-pro:1e4079ea4e5c476e961a2709f9397d949354e098dbcd72a65483946b62a39b1d",
             {
-                width: 768,
-                height: 768,
-                prompt: prompt,
-                refine: "expert_ensemble_refiner",
-                scheduler: "K_EULER",
-                lora_scale: 0.6,
-                num_outputs: 1,
-                guidance_scale: 7.5,
-                apply_watermark: false,
-                high_noise_frac: 0.8,
-                negative_prompt: "",
-                prompt_strength: 0.8,
-                num_inference_steps: 25
+                prompt: prompt
             }
         );
         console.log("✅ Replicate API Response:", prediction);
