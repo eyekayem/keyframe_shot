@@ -24,14 +24,11 @@ export default async function handler(req, res) {
     const { input } = req.body;
 
     const options = {
-        version: '8beff3369e81422112d93b89ca01426147de542cd4684c244b673b105188fe5f',
-        input: { input }
-    }
-
-    if (WEBHOOK_HOST) {
-        options.webhook = `${WEBHOOK_HOST}/api/webhooks`;
-        options.webhook_events_filter = ["start", "completed"];
-    }
+        model: 'black-forest-labs/flux-1.1-pro-ultra',
+        input: input,
+        webhook: `${WEBHOOK_HOST}/api/webhooks`,
+        webhook_events_filter: ["completed"]
+    };
 
     try {
         const prediction = await replicate.predictions.create(options);
