@@ -21,7 +21,21 @@ if (!WEBHOOK_HOST) {
 export default async function handler(req, res) {
     console.log("Incoming request body:", req.body); // Log the incoming request body
 
-    const { input } = req.body;
+    const { prompt, lora_weights } = req.body;
+
+    const input = {
+        prompt: prompt,
+        //    lora_weights: lora_weights,
+        guidance: 3,
+        lora_scale: 1,
+        megapixels: "1",
+        num_outputs: 1,
+        aspect_ratio: "1:1",
+        output_format: "webp",
+        output_quality: 80,
+        prompt_strength: 0.8,
+        num_inference_steps: 28
+    };
 
     const options = {
         model: 'black-forest-labs/flux-1.1-pro-ultra',
