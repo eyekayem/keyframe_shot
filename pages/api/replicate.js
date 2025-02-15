@@ -22,6 +22,8 @@ export default async function handler(req, res) {
     console.log("Incoming request body:", req.body); // Log the incoming request body
 
     const { prompt, lora_weights } = req.body;
+    console.log("Parsed prompt:", prompt);
+    console.log("Parsed lora_weights:", lora_weights);
 
     const input = {
         prompt: prompt,
@@ -36,6 +38,7 @@ export default async function handler(req, res) {
         prompt_strength: 0.8,
         num_inference_steps: 28
     };
+    console.log("Constructed input object:", input);
 
     const options = {
         model: 'black-forest-labs/flux-1.1-pro-ultra',
@@ -43,16 +46,21 @@ export default async function handler(req, res) {
         webhook: `${WEBHOOK_HOST}/api/webhooks`,
         webhook_events_filter: ["completed"]
     };
+    console.log("Constructed options object:", options);
 
     try {
         const prediction = await replicate.predictions.create(options);
+        console.log("Prediction response:", prediction);
 
         if (prediction?.error) {
+            console.error("Prediction error:", prediction.error);
             return res.status(500).json({ detail: prediction.error });
         }
 
+        console.log("Prediction successful:", prediction);
         return res.status(201).json(prediction);
     } catch (error) {
+        console.error("Error occurred:", error.message);
         return res.status(500).json({ error: error.message });
     }
 }
